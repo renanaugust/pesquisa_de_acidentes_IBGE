@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Pesquisa de trânsito cidades do Paraná</p>
+
+<button onclick="pesquisaIbge()" style="border-radius: 4px;color:white;background-color:blue">Começar</button>
+
+<p id="resultado"></p>
+
+<script>
+
+function pesquisaIbge() {
+  var continuarInput = 'N';
+  var resultado = '';
+  var codigoCidadeInput, numeroVeiculosInput, numeroAcidentesInput;
+
+  
+  var codigoCidadeMenorIndice, codigoCidadeMaiorIndice;
+  var menorIndiceAcidentes = 0; var maiorIndiceAcidentes = 0;
+  var totalVeicTodasCid = 0; var totalAcidCidMenos2000Veic = 0;
+  
+
+  var qtdeCidades = 0;
+  var qtdeCidadesMenos2000 = 0;
+
+  do {
+
+	//Pega informações da tela - INICIO
+    codigoCidadeInput = prompt("Digite o código da cidade");
+	numeroVeiculosInput = prompt("Digite o número de veículos de passeio nesta cidade");
+	numeroAcidentesInput = prompt("Digite o número de acidentes de trânsito com vítimas nesta cidade");
+    continuarInput = prompt("Digite 1 para CONTINUAR");
+    //Pega informações da tela - FIM
+	
+	//Total veiculos em todas as cidades 
+	if(numeroVeiculosInput) //INICIO
+		totalVeicTodasCid += Number(numeroVeiculosInput);
+	//FIM
+
+	//Total acidentes de transito cidades menos 2000 veiculos 
+	if(numeroVeiculosInput && numeroVeiculosInput < 2000){ // INICIO
+		totalAcidCidMenos2000Veic += Number(numeroAcidentesInput);
+		qtdeCidadesMenos2000++;
+	}
+	//FIM
+
+	//Garante que apenas dados válidos sejam calculados INICIO
+	if(numeroAcidentesInput && codigoCidadeInput){
+    
+    //Caso seja a primeira cidade ou se o numero de acidentes for menor que o que tinhamos como considerado menor numero, entao atualizaremos os valores desse menor indice p/ a variavel e cidade.
+      if(!menorIndiceAcidentes || (numeroAcidentesInput < menorIndiceAcidentes)){ // INICIO
+          codigoCidadeMenorIndice = codigoCidadeInput;
+          menorIndiceAcidentes = Number(numeroAcidentesInput);
+      } // FIM
+
+	  
+      //Caso seja a primeira cidade ou se o numero de acidentes for maior que o que tinhamos como considerado maior numero, entao atualizaremos os valores desse maior indice p/ a variavel e cidade.
+      if(!maiorIndiceAcidentes || (numeroAcidentesInput > maiorIndiceAcidentes)){ // INICIO
+          codigoCidadeMaiorIndice = codigoCidadeInput;
+          maiorIndiceAcidentes = Number(numeroAcidentesInput);
+      } // FIM
+      
+      
+    }
+	//Garante que apenas dados válidos sejam calculados FIM
+
+
+	
+	//Incrementa qtde de cidades
+	qtdeCidades++;
+
+	//Apenas p/ validação no console
+    console.log("Cd cidade: "+codigoCidadeInput+" Veículos: "+numeroVeiculosInput+" Acidentes: "+numeroAcidentesInput);
+	console.log("Cd cidade menor: "+codigoCidadeMenorIndice+" menor indice acidentes: "+menorIndiceAcidentes);
+	console.log("Cd cidade maior: "+codigoCidadeMaiorIndice+" maior indice acidentes: "+maiorIndiceAcidentes);
+	console.log("Total veiculos todas cidades: "+totalVeicTodasCid+" Acidentes cidade menos 2000 veiculos: "+totalAcidCidMenos2000Veic);
+	console.log("Media todas cidades veiculos: "+(totalVeicTodasCid / qtdeCidades));
+	console.log("Media acidentes cidades menos 2000 veiculos: "+(totalAcidCidMenos2000Veic / qtdeCidadesMenos2000));
+	console.log("Qtde cidades: "+qtdeCidades);
+	console.log("Qtde cidades menos 2000 veiculos: "+qtdeCidadesMenos2000);
+	console.log("------------------------------------------");
+	
+	
+  }while (continuarInput == 1);
+
+	//Registra menor indice acidentes
+	resultado += "<br> Menor indice acidentes: Cidade ("+codigoCidadeMenorIndice+") Acidentes ("+menorIndiceAcidentes+")"; 
+
+	//Registra maior indice acidentes
+	resultado += "<br> Maior indice acidentes: Cidade ("+codigoCidadeMaiorIndice+") Acidentes ("+maiorIndiceAcidentes+")";
+
+	//Registra media de veiculos nas cidades juntas
+	resultado += "<br> Média veículo todas cidades juntas: "+ (totalVeicTodasCid / qtdeCidades);
+
+	//Registra media de acidentes de trânsito cidades menos 2000 veiculos
+	resultado += "<br> Média acidentes cidades com menos 2000 veículos: "+ (totalAcidCidMenos2000Veic / qtdeCidadesMenos2000);
+
+    document.getElementById("resultado").innerHTML = resultado;
+
+}
+</script>
+
+</body>
+</html>
